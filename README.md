@@ -1,5 +1,5 @@
 ---
-title: Tune-A-Video Training UI
+title: Tune-A-Video
 emoji: ⚡
 colorFrom: red
 colorTo: purple
