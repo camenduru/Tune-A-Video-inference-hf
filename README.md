@@ -1,6 +1,6 @@
 ---
-title: Tune-A-Video
-emoji: ⚡
+title: Tune-A-Video Inference
+emoji: 🐠
 colorFrom: red
 colorTo: purple
 sdk: docker
