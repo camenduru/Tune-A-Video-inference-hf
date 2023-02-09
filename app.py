@@ -194,7 +194,7 @@ with gr.Blocks(css='style.css') as demo:
                     ],
                     outputs=result,
                     fn=pipe.run,
-                    cache_examples=True)
+                    cache_examples=os.getenv('SYSTEM') == 'spaces')
 
     model_id.change(fn=app.load_model_info,
                     inputs=model_id,
