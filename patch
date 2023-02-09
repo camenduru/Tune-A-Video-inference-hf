@@ -1,0 +1,15 @@
+diff --git a/train_tuneavideo.py b/train_tuneavideo.py
+index 66d51b2..86b2a5d 100644
+--- a/train_tuneavideo.py
++++ b/train_tuneavideo.py
+@@ -94,8 +94,8 @@ def main(
+ 
+     # Handle the output folder creation
+     if accelerator.is_main_process:
+-        now = datetime.datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
+-        output_dir = os.path.join(output_dir, now)
++        #now = datetime.datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
++        #output_dir = os.path.join(output_dir, now)
+         os.makedirs(output_dir, exist_ok=True)
+         OmegaConf.save(config, os.path.join(output_dir, 'config.yaml'))
+ 

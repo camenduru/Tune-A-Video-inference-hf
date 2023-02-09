@@ -1,0 +1,3 @@
+[submodule "Tune-A-Video"]
+	path = Tune-A-Video
+	url = https://github.com/showlab/Tune-A-Video
