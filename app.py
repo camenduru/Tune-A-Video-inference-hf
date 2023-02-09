@@ -52,9 +52,14 @@ with gr.Blocks(css='style.css') as demo:
         with gr.Column():
             with gr.Box():
                 reload_button = gr.Button('Reload Model List')
-                model_id = gr.Dropdown(label='Model ID',
-                                       choices=None,
-                                       value=None)
+                model_id = gr.Dropdown(
+                    label='Model ID',
+                    choices=[
+                        'Tune-A-Video-library/a-man-is-surfing',
+                        'Tune-A-Video-library/mo-di-bear-guitar',
+                        'Tune-A-Video-library/redshift-man-skiing',
+                    ],
+                    value='Tune-A-Video-library/a-man-is-surfing')
                 with gr.Accordion(
                         label=
                         'Model info (Base model and prompt used for training)',
@@ -102,6 +107,111 @@ with gr.Blocks(css='style.css') as demo:
             ''')
         with gr.Column():
             result = gr.Video(label='Result')
+    with gr.Row():
+        examples = [
+            [
+                'Tune-A-Video-library/a-man-is-surfing',
+                'A panda is surfing.',
+                8,
+                1,
+                3,
+                50,
+                7.5,
+            ],
+            [
+                'Tune-A-Video-library/a-man-is-surfing',
+                'A racoon is surfing, cartoon style.',
+                8,
+                1,
+                3,
+                50,
+                7.5,
+            ],
+            [
+                'Tune-A-Video-library/mo-di-bear-guitar',
+                'a handsome prince is playing guitar, modern disney style.',
+                8,
+                1,
+                123,
+                50,
+                7.5,
+            ],
+            [
+                'Tune-A-Video-library/mo-di-bear-guitar',
+                'a magical princess is playing guitar, modern disney style.',
+                8,
+                1,
+                123,
+                50,
+                7.5,
+            ],
+            [
+                'Tune-A-Video-library/mo-di-bear-guitar',
+                'a rabbit is playing guitar, modern disney style.',
+                8,
+                1,
+                123,
+                50,
+                7.5,
+            ],
+            [
+                'Tune-A-Video-library/mo-di-bear-guitar',
+                'a baby is playing guitar, modern disney style.',
+                8,
+                1,
+                123,
+                50,
+                7.5,
+            ],
+            [
+                'Tune-A-Video-library/redshift-man-skiing',
+                '(redshift style) spider man is skiing.',
+                8,
+                1,
+                123,
+                50,
+                7.5,
+            ],
+            [
+                'Tune-A-Video-library/redshift-man-skiing',
+                '(redshift style) black widow is skiing.',
+                8,
+                1,
+                123,
+                50,
+                7.5,
+            ],
+            [
+                'Tune-A-Video-library/redshift-man-skiing',
+                '(redshift style) batman is skiing.',
+                8,
+                1,
+                123,
+                50,
+                7.5,
+            ],
+            [
+                'Tune-A-Video-library/redshift-man-skiing',
+                '(redshift style) hulk is skiing.',
+                8,
+                1,
+                123,
+                50,
+                7.5,
+            ],
+        ]
+        gr.Examples(examples=examples,
+                    inputs=[
+                        model_id,
+                        prompt,
+                        video_length,
+                        fps,
+                        seed,
+                        num_steps,
+                        guidance_scale,
+                    ],
+                    outputs=result,
+                    fn=pipe.run)
 
     reload_button.click(fn=app.reload_model_list_and_update_model_info,
                         inputs=None,
