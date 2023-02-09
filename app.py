@@ -211,7 +211,8 @@ with gr.Blocks(css='style.css') as demo:
                         guidance_scale,
                     ],
                     outputs=result,
-                    fn=pipe.run)
+                    fn=pipe.run,
+                    cache_examples=True)
 
     reload_button.click(fn=app.reload_model_list_and_update_model_info,
                         inputs=None,
