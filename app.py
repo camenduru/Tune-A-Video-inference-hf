@@ -5,24 +5,13 @@ from __future__ import annotations
 import os
 
 import gradio as gr
-from huggingface_hub import HfApi
 
-from constants import MODEL_LIBRARY_ORG_NAME
 from inference import InferencePipeline
 
 
 class InferenceUtil:
     def __init__(self, hf_token: str | None):
         self.hf_token = hf_token
-
-    def load_hub_model_list(self) -> dict:
-        api = HfApi(token=self.hf_token)
-        choices = [
-            info.modelId
-            for info in api.list_models(author=MODEL_LIBRARY_ORG_NAME)
-        ]
-        return gr.update(choices=choices,
-                         value=choices[0] if choices else None)
 
     def load_model_info(self, model_id: str) -> tuple[str, str]:
         try:
@@ -32,12 +21,6 @@ class InferenceUtil:
         base_model = getattr(card.data, 'base_model', '')
         training_prompt = getattr(card.data, 'training_prompt', '')
         return base_model, training_prompt
-
-    def reload_model_list_and_update_model_info(self) -> tuple[dict, str, str]:
-        model_list_update = self.load_hub_model_list()
-        model_list = model_list_update['choices']
-        model_info = self.load_model_info(model_list[0] if model_list else '')
-        return model_list_update, *model_info
 
 
 TITLE = '# [Tune-A-Video](https://tuneavideo.github.io/)'
@@ -51,7 +34,6 @@ with gr.Blocks(css='style.css') as demo:
     with gr.Row():
         with gr.Column():
             with gr.Box():
-                reload_button = gr.Button('Reload Model List')
                 model_id = gr.Dropdown(
                     label='Model ID',
                     choices=[
@@ -214,13 +196,6 @@ with gr.Blocks(css='style.css') as demo:
                     fn=pipe.run,
                     cache_examples=True)
 
-    reload_button.click(fn=app.reload_model_list_and_update_model_info,
-                        inputs=None,
-                        outputs=[
-                            model_id,
-                            base_model_used_for_training,
-                            prompt_used_for_training,
-                        ])
     model_id.change(fn=app.load_model_info,
                     inputs=model_id,
                     outputs=[
