@@ -5,6 +5,7 @@ from __future__ import annotations
 import os
 
 import gradio as gr
+import torch
 
 from inference import InferencePipeline
 
@@ -23,13 +24,16 @@ class InferenceUtil:
         return base_model, training_prompt
 
 
-TITLE = '# [Tune-A-Video](https://tuneavideo.github.io/)'
+DESCRIPTION = '# [Tune-A-Video](https://tuneavideo.github.io/)'
+if not torch.cuda.is_available():
+    DESCRIPTION += '\n<p>Running on CPU 🥶 This demo does not work on CPU.</p>'
+
 HF_TOKEN = os.getenv('HF_TOKEN')
 pipe = InferencePipeline(HF_TOKEN)
 app = InferenceUtil(HF_TOKEN)
 
 with gr.Blocks(css='style.css') as demo:
-    gr.Markdown(TITLE)
+    gr.Markdown(DESCRIPTION)
 
     with gr.Row():
         with gr.Column():
@@ -194,7 +198,7 @@ with gr.Blocks(css='style.css') as demo:
                     ],
                     outputs=result,
                     fn=pipe.run,
-                    cache_examples=os.getenv('SYSTEM') == 'spaces')
+                    cache_examples=os.getenv('CACHE_EXAMPLES') == '1')
 
     model_id.change(fn=app.load_model_info,
                     inputs=model_id,
